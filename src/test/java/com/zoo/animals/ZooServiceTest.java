@@ -44,4 +44,13 @@ public class ZooServiceTest {
         assertEquals(expectedDTO, actualDTO);
 
     }
+
+    @Test
+    public void feedAnimals(){
+        AnimalEntity animal = new AnimalEntity("Bird", "flying", true);
+        when(repository.save(any())).thenReturn(animal);
+        when(repository.findById(1L)).thenReturn(java.util.Optional.of(animal));
+        service.feedAnimals(1L);
+        verify(repository, times(1)).save(animal);
+    }
 }

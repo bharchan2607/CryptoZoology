@@ -6,9 +6,21 @@ public class AnimalDTO {
 
     private String name;
     private String type;
+    private boolean treat;
+
     public AnimalDTO(String name, String type) {
         this.name = name;
         this.type = type;
+        this.treat = false;
+    }
+
+    public AnimalDTO(String name, String type, boolean treat) {
+        this.name = name;
+        this.type = type;
+        this.treat = treat;
+    }
+
+    public AnimalDTO() {
     }
 
     public String getName() {
@@ -19,17 +31,25 @@ public class AnimalDTO {
         return type;
     }
 
+    public boolean getTreat() {
+        return treat;
+    }
+
+    public void setTreat(boolean treat) {
+        this.treat = treat;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AnimalDTO animalDTO = (AnimalDTO) o;
-        return Objects.equals(name, animalDTO.name) && Objects.equals(type, animalDTO.type);
+        return treat == animalDTO.treat && Objects.equals(name, animalDTO.name) && Objects.equals(type, animalDTO.type);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, type);
+        return Objects.hash(name, type, treat);
     }
 
     @Override
@@ -37,6 +57,7 @@ public class AnimalDTO {
         return "AnimalDTO{" +
                 "name='" + name + '\'' +
                 ", type='" + type + '\'' +
+                ", treat=" + treat +
                 '}';
     }
 }

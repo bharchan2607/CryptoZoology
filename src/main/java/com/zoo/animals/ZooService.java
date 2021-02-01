@@ -15,7 +15,8 @@ public class ZooService {
     }
 
     public AnimalDTO addAnimal(AnimalDTO animal) {
-        AnimalEntity animalEntity =  zooRepository.save(new AnimalEntity(animal.getName(), animal.getType()));
+        AnimalEntity animalEntity =  zooRepository.save(new AnimalEntity(animal.getName(),
+                animal.getType(), animal.getTreat()));
         return mapToDTO(animalEntity);
     }
 
@@ -26,7 +27,15 @@ public class ZooService {
                 .collect(Collectors.toList());
     }
 
+    public void feedAnimals(Long animalId){
+        AnimalEntity animal = zooRepository.findById(animalId).get();
+        animal.setMood(true);
+        zooRepository.save(animal);
+    }
+
     private AnimalDTO mapToDTO(AnimalEntity animalEntity) {
-       return new AnimalDTO(animalEntity.getName(), animalEntity.getType());
+       return new AnimalDTO(animalEntity.getName(),
+               animalEntity.getType()
+       , animalEntity.getMood());
     }
 }

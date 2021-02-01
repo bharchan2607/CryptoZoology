@@ -2,7 +2,7 @@ API Specification:
 ------------------
 Add Animals -------- POST -> /api/zoo/animals -> Add Animals to Zoo and return
 View Animals ------- GET -> /api/zoo/animals -> View All Animals in Zoo
-
+Feed Animals ------- GET -> /api/zoo/animals/feed/{animalId} ->Feed animals in Zoo
 ------------------------------------------------------------------------
 As zookeeper, I want to add animals to my zoo.
 

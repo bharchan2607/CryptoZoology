@@ -25,4 +25,9 @@ public class ZooController {
     public List<AnimalDTO> getAllAnimals(){
         return zooService.getAllAnimals();
     }
+
+    @GetMapping("/feed/{animalId}")
+    public void feedAnimals(@PathVariable Long animalId){
+        zooService.feedAnimals(animalId);
+    }
 }

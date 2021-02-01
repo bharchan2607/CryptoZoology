@@ -1,12 +1,14 @@
-com/zoo/animals/AnimalDTO.java
- com.zoo.animals.AnimalDTO
-com/zoo/animals/ZooController.java
- com.zoo.animals.ZooController
 com/zoo/animals/ZooRepository.java
  com.zoo.animals.ZooRepository
 com/zoo/animals/CryptoZoologyApplication.java
  com.zoo.animals.CryptoZoologyApplication
-com/zoo/animals/AnimalEntity.java
- com.zoo.animals.AnimalEntity
+com/zoo/animals/AnimalDTO.java
+ com.zoo.animals.AnimalDTO
+com/zoo/animals/ZooController.java
+ com.zoo.animals.ZooController
 com/zoo/animals/ZooService.java
  com.zoo.animals.ZooService
+com/zoo/animals/AnimalEntity.java
+ com.zoo.animals.AnimalEntity
+com/zoo/animals/AnimalHabitatEntity.java
+ com.zoo.animals.AnimalHabitatEntity
