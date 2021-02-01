@@ -13,6 +13,10 @@ public class AnimalEntity {
     private Long id;
     private String name;
     private String type;
+
+    public AnimalEntity() {
+    }
+
     public AnimalEntity(String name, String type) {
         this.name = name;
         this.type = type;

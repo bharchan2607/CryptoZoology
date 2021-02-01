@@ -9,7 +9,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -34,6 +37,29 @@ public class ZooControllerTest {
         .content(animalJson)
         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
+                .andExpect(content().string(animalJson));
+    }
+
+    @Test
+    public void viewAnimals() throws Exception {
+        List<AnimalDTO> animal = List.of(new AnimalDTO("Fish","swimming")
+                ,new AnimalDTO("Bird","flying"));
+        String animalJson = mapper.writeValueAsString(animal);
+
+        //Setup Data
+        mockMvc.perform(post("/api/zoo/animals")
+                .content(mapper.writeValueAsString(new AnimalDTO("Fish","swimming")))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
+        mockMvc.perform(post("/api/zoo/animals")
+                .content(mapper.writeValueAsString(new AnimalDTO("Bird","flying")))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
+
+
+        //Verify
+        mockMvc.perform(get("/api/zoo/animals"))
+                .andExpect(status().isOk())
                 .andExpect(content().string(animalJson));
     }
 

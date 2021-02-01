@@ -8,6 +8,8 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -27,6 +29,19 @@ public class ZooServiceTest {
         AnimalDTO actualDTO = service.addAnimal(new AnimalDTO("fish","swimming"));
         verify(repository,times(1)).save(animal);
         assertEquals(animalDTO,actualDTO);
+
+    }
+
+    @Test
+    public void getAllAnimals(){
+        List<AnimalEntity> animalList = List.of(new AnimalEntity("fish", "swimming")
+                ,new AnimalEntity("Bird", "flying"));
+        when(repository.findAll()).thenReturn(animalList);
+        List<AnimalDTO> expectedDTO = List.of(new AnimalDTO("fish", "swimming")
+                ,new AnimalDTO("Bird", "flying"));
+        List<AnimalDTO> actualDTO = service.getAllAnimals();
+        verify(repository, times(1)).findAll();
+        assertEquals(expectedDTO, actualDTO);
 
     }
 }

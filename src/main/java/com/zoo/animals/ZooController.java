@@ -3,6 +3,8 @@ package com.zoo.animals;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/zoo/animals")
 public class ZooController {
@@ -17,5 +19,10 @@ public class ZooController {
     @ResponseStatus(HttpStatus.CREATED)
     public AnimalDTO addAnimals(@RequestBody AnimalDTO animal){
         return zooService.addAnimal(animal);
+    }
+
+    @GetMapping
+    public List<AnimalDTO> getAllAnimals(){
+        return zooService.getAllAnimals();
     }
 }
