@@ -7,6 +7,7 @@ public class AnimalDTO {
     private String name;
     private String type;
     private boolean treat;
+    private String habitat;
 
     public AnimalDTO(String name, String type) {
         this.name = name;
@@ -37,6 +38,14 @@ public class AnimalDTO {
 
     public void setTreat(boolean treat) {
         this.treat = treat;
+    }
+
+    public String getHabitat() {
+        return habitat;
+    }
+
+    public void setHabitat(String habitat) {
+        this.habitat = habitat;
     }
 
     @Override

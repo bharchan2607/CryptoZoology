@@ -30,4 +30,13 @@ public class ZooController {
     public void feedAnimals(@PathVariable Long animalId){
         zooService.feedAnimals(animalId);
     }
+
+    @PostMapping("/place/{animalId}")
+    public AnimalDTO placeAnimalsInHabitat(
+            @PathVariable Long animalId,
+            @RequestBody AnimalDTO animal){
+        return zooService.placeAnimalsInHabitat(animalId,
+                animal);
+    }
+
 }

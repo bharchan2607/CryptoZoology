@@ -9,9 +9,12 @@ import java.util.stream.Collectors;
 public class ZooService {
 
     ZooRepository zooRepository;
+    ZooHabitatRepository zooHabitatRepository;
 
-    public ZooService(ZooRepository zooRepository) {
+    public ZooService(ZooRepository zooRepository, ZooHabitatRepository zooHabitatRepository) {
+
         this.zooRepository = zooRepository;
+        this.zooHabitatRepository = zooHabitatRepository;
     }
 
     public AnimalDTO addAnimal(AnimalDTO animal) {
@@ -33,9 +36,24 @@ public class ZooService {
         zooRepository.save(animal);
     }
 
+    public AnimalDTO placeAnimalsInHabitat(Long animalId, AnimalDTO animal){
+        AnimalEntity animalEntity = zooRepository.findById(animalId).get();
+        AnimalHabitatEntity habitat = zooHabitatRepository.findByType(animalEntity.getType());
+        if(animal.getHabitat().equals(habitat.getHabitat())){
+            animalEntity.setMood(true);
+            animalEntity.setHabitat(animal.getHabitat());
+        }else{
+            animalEntity.setMood(false);
+            animalEntity.setHabitat(animal.getHabitat());
+        }
+        return mapToDTO(zooRepository.save(animalEntity));
+    }
+
     private AnimalDTO mapToDTO(AnimalEntity animalEntity) {
-       return new AnimalDTO(animalEntity.getName(),
+       AnimalDTO animal = new AnimalDTO(animalEntity.getName(),
                animalEntity.getType()
        , animalEntity.getMood());
+       animal.setHabitat(animalEntity.getHabitat());
+       return animal;
     }
 }

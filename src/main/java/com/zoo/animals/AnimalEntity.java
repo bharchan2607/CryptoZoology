@@ -11,9 +11,15 @@ public class AnimalEntity {
     private String name;
     private String type;
     private boolean mood;
+    private String habitat;
 
-    @OneToOne
-    private AnimalHabitatEntity animalHabitat;
+    public void setHabitat(String habitat) {
+        this.habitat = habitat;
+    }
+
+    public String getHabitat() {
+        return habitat;
+    }
 
     public AnimalEntity() {
     }

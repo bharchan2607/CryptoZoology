@@ -12,4 +12,22 @@ public class AnimalHabitatEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private String type;
+    private String habitat;
+
+    public AnimalHabitatEntity() {
+    }
+
+    public AnimalHabitatEntity(String type, String habitat) {
+        this.type = type;
+        this.habitat = habitat;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getHabitat() {
+        return habitat;
+    }
 }

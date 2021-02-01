@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.zoo.animals.ZooServiceTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2021-02-01T21:19:32" hostname="LAPTOP-S57OD5Q8" time="1.743">
-  <properties/>
-  <testcase name="addAnimal()" classname="com.zoo.animals.ZooServiceTest" time="1.717"/>
-  <testcase name="feedAnimals()" classname="com.zoo.animals.ZooServiceTest" time="0.008"/>
-  <testcase name="getAllAnimals()" classname="com.zoo.animals.ZooServiceTest" time="0.01"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

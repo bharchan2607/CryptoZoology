@@ -25,12 +25,24 @@ public class ZooControllerTest {
     MockMvc mockMvc;
     @Autowired
     ZooRepository zooRepository;
+    @Autowired
+    ZooHabitatRepository habitatRepo;
 
     ObjectMapper mapper;
 
     @BeforeEach
     public void setup(){
         zooRepository.deleteAll();
+        habitatRepo.deleteAll();
+        AnimalHabitatEntity habitat = new AnimalHabitatEntity("flying", "nest");
+        AnimalHabitatEntity habitat2 = new AnimalHabitatEntity("swimming", "ocean");
+        AnimalHabitatEntity habitat3 = new AnimalHabitatEntity("walking", "forest");
+
+        habitatRepo.save(habitat);
+        habitatRepo.save(habitat2);
+        habitatRepo.save(habitat3);
+
+
         mapper = new ObjectMapper();
     }
 
@@ -105,7 +117,66 @@ public class ZooControllerTest {
                 .andExpect(jsonPath("$.[1].treat").value(true))
                 .andReturn();
 
+    }
 
+    @Test
+    public void placeAnimalInHabitat_compatibleHabitat() throws Exception {
+        AnimalDTO animalDTO = new AnimalDTO("Fish","swimming");
+        animalDTO.setTreat(true);
+        animalDTO.setHabitat("ocean");
+        String animalDTOJson = mapper.writeValueAsString(animalDTO);
+
+        //Setup Data
+        mockMvc.perform(post("/api/zoo/animals")
+                .content(mapper.writeValueAsString(new AnimalDTO("Fish","swimming")))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
+        mockMvc.perform(post("/api/zoo/animals")
+                .content(mapper.writeValueAsString(new AnimalDTO("Bird","flying")))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andReturn();
+        Long fishAnimalId = zooRepository.findAll().get(0).getId();
+        //Verify
+        mockMvc.perform(post("/api/zoo/animals/place/"+fishAnimalId)
+                .content(mapper.writeValueAsString(animalDTO))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(animalDTOJson));
+
+    }
+
+    @Test
+    public void placeAnimalInHabitat_incompatibleHabitat() throws Exception {
+
+        AnimalDTO animalDTO1 = new AnimalDTO("Bird","flying");
+        animalDTO1.setTreat(false);
+        animalDTO1.setHabitat("ocean");
+        String animalDTO1Json = mapper.writeValueAsString(animalDTO1);
+
+
+        //Setup Data
+        mockMvc.perform(post("/api/zoo/animals")
+                .content(mapper.writeValueAsString(new AnimalDTO("Fish","swimming")))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
+        mockMvc.perform(post("/api/zoo/animals")
+                .content(mapper.writeValueAsString(new AnimalDTO("Bird","flying")))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andReturn();
+        Long birdAnimalId = zooRepository.findAll().get(1).getId();
+
+        //feed animal to make it happy
+        mockMvc.perform(get("/api/zoo/animals/feed/"+birdAnimalId))
+                .andExpect(status().isOk());
+
+        //Verify
+        mockMvc.perform(post("/api/zoo/animals/place/"+birdAnimalId)
+                .content(mapper.writeValueAsString(animalDTO1))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(animalDTO1Json));
 
     }
 

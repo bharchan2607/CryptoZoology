@@ -18,6 +18,8 @@ public class ZooServiceTest {
 
     @Mock
     ZooRepository repository;
+    @Mock
+    ZooHabitatRepository habitatRepository;
     @InjectMocks
     ZooService service;
 
@@ -52,5 +54,19 @@ public class ZooServiceTest {
         when(repository.findById(1L)).thenReturn(java.util.Optional.of(animal));
         service.feedAnimals(1L);
         verify(repository, times(1)).save(animal);
+    }
+    @Test
+    public void placeAnimalsInHabitat(){
+        AnimalEntity animal = new AnimalEntity("Bird", "flying", true);
+        animal.setHabitat("nest");
+        AnimalDTO animalDTO = new AnimalDTO(
+                "Bird", "flying", true);
+        animalDTO.setHabitat("nest");
+        when(repository.save(any())).thenReturn(animal);
+        when(repository.findById(1L)).thenReturn(java.util.Optional.of(animal));
+        when(habitatRepository.findByType("flying")).thenReturn(new AnimalHabitatEntity("flying","nest"));
+        service.placeAnimalsInHabitat(1L, animalDTO);
+        verify(repository, times(1)).save(animal);
+
     }
 }
