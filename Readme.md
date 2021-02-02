@@ -1,10 +1,15 @@
 API Specification:
 ------------------
 Add Animals -------- POST -> /api/zoo/animals -> Add Animals to Zoo and return
+---------------------------------------------------------------
 View Animals ------- GET -> /api/zoo/animals -> View All Animals in Zoo
+---------------------------------------------------------------
 Feed Animals ------- GET -> /api/zoo/animals/feed/{animalId} ->Feed animals in Zoo
+----------------------------------------------------------------
 Place Animals in Habitat ------- POST ->/api/zoo/animals/place/{animalId} -> Place Animals in habitat
+----------------------------------------------------------------
 Search Animals by Mood and Type ---- GET -> /api/zoo/animals/search/{mood}/{type} -> Returns list of animals
+-----------------------------------------------------------------
 Search EmptyHabitat ------- GET -> /api/zoo/animals/search/emptyHabitats -> Returns list of empty habitats
 ------------------------------------------------------------------------
 Add Animals:
@@ -23,7 +28,7 @@ Response:
 "treat": false,
 "habitat": null
 }
-
+----------------------------------------------------------------
 View Animals:
 GET -> /api/zoo/animals
 Response:
@@ -41,8 +46,10 @@ Response:
 "habitat": "nest"
 }
 ]
+-----------------------------------------------------------------
 Feed Animals:
 GET -> /api/zoo/animals/feed/{animalId}
+----------------------------------------------------------------
 Place animals:
 POST ->/api/zoo/animals/place/{animalId}
 Request:
@@ -54,6 +61,7 @@ Response:
 "treat": true,
 "habitat": "nest"
 }
+----------------------------------------------------------------
 Search Animals By Mood and Type:
 GET -> /api/zoo/animals/search/{mood}/{type}
 Response:
@@ -65,15 +73,15 @@ Response:
 "habitat": "nest"
 }
 ]
+----------------------------------------------------------------
 Search Empty habitats:
 GET -> /api/zoo/animals/search/emptyHabitats
 Response:
 [
 "forest"
 ]
-
-
-
+-------------------------------------------------------
+User Stories:
 
 As zookeeper, I want to add animals to my zoo.
 
