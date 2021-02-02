@@ -3,7 +3,78 @@ API Specification:
 Add Animals -------- POST -> /api/zoo/animals -> Add Animals to Zoo and return
 View Animals ------- GET -> /api/zoo/animals -> View All Animals in Zoo
 Feed Animals ------- GET -> /api/zoo/animals/feed/{animalId} ->Feed animals in Zoo
+Place Animals in Habitat ------- POST ->/api/zoo/animals/place/{animalId} -> Place Animals in habitat
+Search Animals by Mood and Type ---- GET -> /api/zoo/animals/search/{mood}/{type} -> Returns list of animals
+Search EmptyHabitat ------- GET -> /api/zoo/animals/search/emptyHabitats -> Returns list of empty habitats
 ------------------------------------------------------------------------
+Add Animals:
+Request:
+POST -> /api/zoo/animals
+{
+"name": "Fish",
+"type": "swimming",
+"treat": false,
+"habitat": null
+}
+Response:
+{
+"name": "Fish",
+"type": "swimming",
+"treat": false,
+"habitat": null
+}
+
+View Animals:
+GET -> /api/zoo/animals
+Response:
+[
+{
+"name": "Fish",
+"type": "swimming",
+"treat": false,
+"habitat": null
+},
+{
+"name": "Bird",
+"type": "flying",
+"treat": false,
+"habitat": "nest"
+}
+]
+Feed Animals:
+GET -> /api/zoo/animals/feed/{animalId}
+Place animals:
+POST ->/api/zoo/animals/place/{animalId}
+Request:
+{"name":"Bird","type":"flying","treat":false,"habitat":"nest"}
+Response:
+{
+"name": "Bird",
+"type": "flying",
+"treat": true,
+"habitat": "nest"
+}
+Search Animals By Mood and Type:
+GET -> /api/zoo/animals/search/{mood}/{type}
+Response:
+[
+{
+"name": "Bird",
+"type": "flying",
+"treat": true,
+"habitat": "nest"
+}
+]
+Search Empty habitats:
+GET -> /api/zoo/animals/search/emptyHabitats
+Response:
+[
+"forest"
+]
+
+
+
+
 As zookeeper, I want to add animals to my zoo.
 
 Rule: Animal should have a name and a type (flying, swimming, walking)

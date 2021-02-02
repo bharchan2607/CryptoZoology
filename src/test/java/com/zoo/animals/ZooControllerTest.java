@@ -55,6 +55,7 @@ public class ZooControllerTest {
         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(content().string(animalJson));
+        System.out.println(animalJson);
     }
 
     @Test
@@ -177,6 +178,58 @@ public class ZooControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(animalDTO1Json));
+
+    }
+
+    @Test
+    public void searchForAnimalsByMoodAndType() throws Exception {
+
+        List<AnimalDTO> animalList = List.of(new AnimalDTO("Bird","flying", true, "nest")
+        ,new AnimalDTO("Owl","flying", true, "nest"));
+        String animalListJson = mapper.writeValueAsString(animalList);
+        mockMvc.perform(post("/api/zoo/animals")
+                .content(mapper.writeValueAsString(new AnimalDTO("Fish","swimming", true, "ocean")))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
+        mockMvc.perform(post("/api/zoo/animals")
+                .content(mapper.writeValueAsString(new AnimalDTO("Bird","flying", true, "nest")))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andReturn();
+        mockMvc.perform(post("/api/zoo/animals")
+                .content(mapper.writeValueAsString(new AnimalDTO("Owl","flying", true, "nest")))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andReturn();
+        boolean mood = true;
+        String type = "flying";
+
+        mockMvc.perform(get("/api/zoo/animals/search/"+mood+"/"+type))
+                .andExpect((status().isOk()))
+                .andExpect(content().string(animalListJson));
+
+    }
+
+    @Test
+    public void searchForEmptyHabitats() throws Exception {
+        mockMvc.perform(post("/api/zoo/animals")
+                .content(mapper.writeValueAsString(new AnimalDTO("Fish","swimming", true, "ocean")))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
+        mockMvc.perform(post("/api/zoo/animals")
+                .content(mapper.writeValueAsString(new AnimalDTO("Bird","flying", true, "nest")))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andReturn();
+        mockMvc.perform(post("/api/zoo/animals")
+                .content(mapper.writeValueAsString(new AnimalDTO("Owl","flying", true, "nest")))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        mockMvc.perform(get("/api/zoo/animals/search/emptyHabitats"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(mapper.writeValueAsString(List.of("forest"))));
 
     }
 

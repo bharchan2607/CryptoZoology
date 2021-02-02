@@ -21,6 +21,13 @@ public class AnimalDTO {
         this.treat = treat;
     }
 
+    public AnimalDTO(String name, String type, boolean treat, String habitat) {
+        this.name = name;
+        this.type = type;
+        this.treat = treat;
+        this.habitat = habitat;
+    }
+
     public AnimalDTO() {
     }
 

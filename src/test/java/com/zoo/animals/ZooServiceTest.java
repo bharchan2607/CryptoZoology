@@ -58,7 +58,7 @@ public class ZooServiceTest {
     @Test
     public void placeAnimalsInHabitat(){
         AnimalEntity animal = new AnimalEntity("Bird", "flying", true);
-        animal.setHabitat("nest");
+        animal.getAnimalInfo().setHabitat("nest");
         AnimalDTO animalDTO = new AnimalDTO(
                 "Bird", "flying", true);
         animalDTO.setHabitat("nest");
@@ -67,6 +67,32 @@ public class ZooServiceTest {
         when(habitatRepository.findByType("flying")).thenReturn(new AnimalHabitatEntity("flying","nest"));
         service.placeAnimalsInHabitat(1L, animalDTO);
         verify(repository, times(1)).save(animal);
+
+    }
+
+    @Test
+    public void searchAnimalsByMoodAndType(){
+        List<AnimalDTO> expectedDTO = List.of(new AnimalDTO("Bird","flying",true,"nest"));
+        AnimalEntity animal = new AnimalEntity("Bird", "flying", true);
+        when(repository.findByMoodAndType(true,"flying")).thenReturn(List.of(animal));
+        List<AnimalDTO> actualDTO = service.searchAnimalsByMoodAndType(true, "flying");
+        assertEquals(expectedDTO, actualDTO);
+        verify(repository, times(1)).findByMoodAndType(true,"flying");
+
+    }
+
+    @Test
+    public void searchForEmptyHabitats(){
+        when(habitatRepository.findAllHabitat()).thenReturn(List.of("forest","nest","ocean"));
+
+        when(repository.findAllHabitat()).thenReturn(List.of("nest","ocean"));
+
+        List<String> actualHabitat = service.searchForEmptyHabitats();
+        assertEquals(List.of("forest"),actualHabitat);
+        verify(repository, times(1)).findAllHabitat();
+        verify(habitatRepository,times(1)).findAllHabitat();
+
+
 
     }
 }

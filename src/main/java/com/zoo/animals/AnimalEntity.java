@@ -9,48 +9,35 @@ public class AnimalEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-    private String type;
-    private boolean mood;
-    private String habitat;
 
-    public void setHabitat(String habitat) {
-        this.habitat = habitat;
-    }
-
-    public String getHabitat() {
-        return habitat;
-    }
+    @OneToOne(cascade = CascadeType.ALL)
+    private AnimalInfo animalInfo;
 
     public AnimalEntity() {
     }
 
     public AnimalEntity(String name, String type) {
         this.name = name;
-        this.type = type;
-        this.mood = false;
+        this.animalInfo = new AnimalInfo(type, false);
 
     }
 
     public AnimalEntity(String name, String type, boolean mood) {
         this.name = name;
-        this.type = type;
-        this.mood = mood;
+        this.animalInfo = new AnimalInfo(type, mood);
+    }
+
+    public AnimalEntity(String name, String type, boolean mood, String habitat) {
+        this.name = name;
+        this.animalInfo = new AnimalInfo(type, mood, habitat);
+    }
+
+    public AnimalInfo getAnimalInfo() {
+        return animalInfo;
     }
 
     public String getName() {
         return name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public boolean getMood() {
-        return mood;
-    }
-
-    public void setMood(boolean mood) {
-        this.mood = mood;
     }
 
     public Long getId() {
@@ -62,12 +49,12 @@ public class AnimalEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AnimalEntity that = (AnimalEntity) o;
-        return mood == that.mood && Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(type, that.type);
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(animalInfo, that.animalInfo);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, type, mood);
+        return Objects.hash(id, name, animalInfo);
     }
 
     @Override
@@ -75,8 +62,7 @@ public class AnimalEntity {
         return "AnimalEntity{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", type='" + type + '\'' +
-                ", mood=" + mood +
+                ", animalInfo=" + animalInfo +
                 '}';
     }
 }

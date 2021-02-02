@@ -18,6 +18,7 @@ public class ZooController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public AnimalDTO addAnimals(@RequestBody AnimalDTO animal){
+
         return zooService.addAnimal(animal);
     }
 
@@ -39,4 +40,14 @@ public class ZooController {
                 animal);
     }
 
+    @GetMapping("/search/{mood}/{type}")
+    public List<AnimalDTO> searchAnimalsByMoodAndType(@PathVariable boolean mood,
+                                                      @PathVariable String type){
+            return zooService.searchAnimalsByMoodAndType(mood, type);
+    }
+
+    @GetMapping("/search/emptyHabitats")
+    public List<String> searchForEmptyHabitats(){
+        return zooService.searchForEmptyHabitats();
+    }
 }
